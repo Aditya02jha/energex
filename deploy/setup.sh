@@ -89,9 +89,9 @@ cat <<EOF
 
 ✓ ENERGEX is running.
   Test:    http://$IP/   (needs "Allow HTTP traffic" on the VM / firewall rule for tcp:80)
-  Domain:  point energex.co.in and www A records to $IP, then:
+  Domain:  point the energex.aditya.sbs A record to $IP, then:
            sudo apt-get install -y certbot python3-certbot-nginx
-           sudo certbot --nginx -d energex.co.in -d www.energex.co.in
+           sudo certbot --nginx -d energex.aditya.sbs
   Update:  sudo $APP_DIR/deploy/update.sh
   Logs:    journalctl -u energex -f    |    /var/log/nginx/energex.*.log
 EOF

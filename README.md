@@ -23,3 +23,16 @@ npm run dev
 ```
 
 Built with Next.js 15 (App Router), React 19 and Tailwind CSS 4. All pages are statically generated (`npm run build`).
+
+## Deployment (Ubuntu VM on Google Cloud)
+
+Code lives in `/opt/energex`, Next.js runs on `127.0.0.1:3100` under systemd (`deploy/energex.service`), and nginx
+(`deploy/nginx/energex.conf`, server_name `energex.aditya.sbs`) proxies port 80 to it.
+
+First time, copy `deploy/setup.sh` to the VM and run `sudo bash setup.sh`. It installs nginx + Node 22, adds swap on
+small VMs, creates an `energex` system user, prints a deploy key to add at GitHub → Settings → Deploy keys, clones
+into `/opt/energex`, builds, and enables the service and nginx site.
+
+- Update: `sudo /opt/energex/deploy/update.sh`
+- HTTPS: `sudo certbot --nginx -d energex.aditya.sbs`
+- Logs: `journalctl -u energex -f`, `/var/log/nginx/energex.*.log`
