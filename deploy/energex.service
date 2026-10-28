@@ -1,0 +1,26 @@
+# systemd unit for the ENERGEX Next.js server. Installed by deploy/setup.sh to
+# /etc/systemd/system/energex.service. Listens on localhost only; nginx is the public entry point.
+[Unit]
+Description=ENERGEX website (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=energex
+Group=energex
+WorkingDirectory=/opt/energex
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+ExecStart=/usr/bin/node /opt/energex/node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3100
+Restart=on-failure
+RestartSec=5
+
+# Hardening: the app only needs to write its image-optimisation cache.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/energex/.next
+
+[Install]
+WantedBy=multi-user.target
